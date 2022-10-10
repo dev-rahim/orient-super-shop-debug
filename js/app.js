@@ -14,22 +14,22 @@ const showProducts = (products) => {
     div.classList.add("product");
     div.innerHTML = `<div class="single-product card">
       <div>
-    <img class="product-image card-img-top" src=${image}></img>
+    <img class="product-image card-img-top img-fluid img-thumbnail" src=${image}></img>
       </div>
       <div class="card-body">
       <h3 class="card-title">${product.title}</h3>
       <p class="">Category: ${product.category}</p>
       <p class='fs-5'><span>Rating:</span><span> ${product.rating.rate}</span> | Total Revews: ${product.rating.count}</p>
-      <h2>Price: $ ${product.price}</h2>
-      <button onclick="addToCart(${product.id},${product.price})" id="addToCart-btn" class="buy-now btn btn-primary">add to cart</button>
-      <button onclick="getproductDetails(${product.id})" id="details-btn" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">Details</button></div>
+      <h3 class="mb-3 text-warning">&#2547; ${product.price}</h3>
+      <button onclick="addToCart(${product.id},${product.price})" id="addToCart-btn" class="buy-now fs-5 btn btn-warning text-light">Add to cart</button>
+      <button onclick="getproductDetails(${product.id})" id="details-btn" class="btn btn-primary fs-5 text-light" data-toggle="modal" data-target="#exampleModal">Details</button></div>
       </div>
       `;
     document.getElementById("all-products").appendChild(div);
 
   }
 };
-// /*   // show product details in modal
+// Load single product details
 const getproductDetails = (id) => {
 
   fetch(`https://fakestoreapi.com/products/${id}`)
@@ -37,6 +37,8 @@ const getproductDetails = (id) => {
     .then(data => showDetails(data))
 
 }
+
+// show product details in modal
 
 const showDetails = (data) => {
   const modalContentContainer = document.getElementById('modal-content-container');
@@ -53,7 +55,7 @@ const showDetails = (data) => {
     </div>
     <div class="modal-body">
     <div>
-      <img class="product-image img-fluid" src=${data.image}></img>
+      <img class="product-image img-thumbnail " src=${data.image}></img>
     </div>
       <p><strong>Discription</strong>: ${data.description}</p>
       <p>Category: ${data.category}</p>
