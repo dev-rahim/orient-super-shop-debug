@@ -12,20 +12,62 @@ const showProducts = (products) => {
     const image = product.image;
     const div = document.createElement("div");
     div.classList.add("product");
-    div.innerHTML = `<div class="single-product">
+    div.innerHTML = `<div class="single-product card">
       <div>
-    <img class="product-image" src=${image}></img>
+    <img class="product-image card-img-top" src=${image}></img>
       </div>
-      <h3>${product.title}</h3>
-      <p>Category: ${product.category}</p>
+      <div class="card-body">
+      <h3 class="card-title">${product.title}</h3>
+      <p class="">Category: ${product.category}</p>
       <p class='fs-5'><span>Rating:</span><span> ${product.rating.rate}</span> | Total Revews: ${product.rating.count}</p>
       <h2>Price: $ ${product.price}</h2>
-      <button onclick="addToCart(${product.id},${product.price})" id="addToCart-btn" class="buy-now btn btn-success">add to cart</button>
-      <button id="details-btn" class="btn btn-danger">Details</button></div>
+      <button onclick="addToCart(${product.id},${product.price})" id="addToCart-btn" class="buy-now btn btn-primary">add to cart</button>
+      <button onclick="getproductDetails(${product.id})" id="details-btn" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">Details</button></div>
+      </div>
       `;
     document.getElementById("all-products").appendChild(div);
+
   }
 };
+// /*   // show product details in modal
+const getproductDetails = (id) => {
+
+  fetch(`https://fakestoreapi.com/products/${id}`)
+    .then(res => res.json())
+    .then(data => showDetails(data))
+
+}
+
+const showDetails = (data) => {
+  const modalContentContainer = document.getElementById('modal-content-container');
+  modalContentContainer.textContent = '';
+  const modalContent = document.createElement('div');
+  modalContent.classList.add('modal-content')
+
+  modalContent.innerHTML = `
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">${data.title}</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+    <div>
+      <img class="product-image img-fluid" src=${data.image}></img>
+    </div>
+      <p><strong>Discription</strong>: ${data.description}</p>
+      <p>Category: ${data.category}</p>
+      <p class='fs-5'><span>Rating:</span><span> ${data.rating.rate}</span> | Total Revews: ${data.rating.count}</p>
+      <h2>Price: $ ${data.price}</h2>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    </div>
+`;
+  modalContentContainer.appendChild(modalContent)
+}
+
+
 let count = 0;
 const addToCart = (id, price) => {
   count = count + 1;
